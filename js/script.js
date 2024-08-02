@@ -23,22 +23,26 @@ console.log(ageField);
 const buttonElement = document.querySelector("button");
 console.log(buttonElement);
 
+const ticketElement = document.getElementById("ticket");
+console.log(ticketElement);
+
 // Prezzo del biglietto per km
 const ticketPricePerKm = 0.21;
 
 // Fase di gestione eventi e di raccolta dati
 
-// Controllo l'evento
+// Controllo il click del bottone
 buttonElement.addEventListener("click", function(event) {
+    // Blocco il reloading della pagina
     event.preventDefault();
 
     // Recupero la distanza (in km) che l'utente vuole percorrere tramite il form e salvo il dato in una variabile
-    const distance = parseInt(distanceField.value);
-    console.log("distance =", distance, "type:", typeof distance);
+    const distanceValue = parseInt(distanceField.value);
+    console.log("distanceValue =", distanceValue, "type:", typeof distanceValue);
 
     // Recupero l'età dell'utente tramite il form e salvo il dato in una variabile
-    const age = parseInt(ageField.value);
-    console.log("age =", age, "type:", typeof age);
+    const ageValue = parseInt(ageField.value);
+    console.log("ageValue =", ageValue, "type:", typeof ageValue);
 
     // Svuoto il form
     formElement.reset();
@@ -46,19 +50,26 @@ buttonElement.addEventListener("click", function(event) {
     // Fase di elaborazione e produzione
 
     // Calcolo e stampo il prezzo del biglietto
-    let ticketPrice = distance * ticketPricePerKm;
+    let ticketPrice = distanceValue * ticketPricePerKm;
     console.log("Prezzo biglietto:", ticketPrice, "type:", typeof ticketPrice);
 
     // Variabile sconto
     let discount = null;
 
     // Controllo l'età dell'utente per applicare uno sconto al prezzo del biglietto
-    if (age < 18) discount = 20;
-    else if (age > 65) discount = 40;
+    if (ageValue < 18) discount = 20;
+    else if (ageValue > 65) discount = 40;
 
     // Calcolo e stampo il prezzo del biglietto con l'eventuale sconto
     if (discount) {
         ticketPrice -= ((ticketPrice * discount) / 100);
         console.log("Prezzo biglietto:", ticketPrice, "type:", typeof ticketPrice);
+        ticketElement.innerText = `Distanza: ${distanceValue} km
+                                   Età: ${ageValue} anni
+                                   Prezzo biglietto: ${ticketPrice} € (sconto del ${discount}%)`;
+    } else {
+        ticketElement.innerText = `Distanza: ${distanceValue} km
+                                   Età: ${ageValue} anni
+                                   Prezzo biglietto: ${ticketPrice} €`;
     }
 });
